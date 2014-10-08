@@ -5,10 +5,6 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 
 
-class Comment(db.Model):
-  name = db.StringProperty(required=True)
-  comment = db.StringProperty()
-
 class Recipe(db.Model):
     title = db.StringProperty(required=True)
     #author
@@ -28,10 +24,9 @@ class Instruction(db.Model):
     recipe = db.ReferenceProperty(Recipe,
                                   collection_name='instructions')
 
-
+# Request handler for homepage
 class MainPage(webapp2.RequestHandler):
     def get(self):
-
         # Capture recipes from DB query
         recipes = db.GqlQuery('SELECT * FROM Recipe')
 
@@ -41,7 +36,7 @@ class MainPage(webapp2.RequestHandler):
         }
 
         self.response.headers['Content-Type'] = 'text/html'
-        path = os.path.join(os.path.dirname(__file__), 'helloworld.html')
+        path = os.path.join(os.path.dirname(__file__), 'home.html')
         self.response.out.write(template.render(path, template_values))
 
     def post(self):
@@ -54,23 +49,23 @@ class MainPage(webapp2.RequestHandler):
         # Re-direct the user to the home page
         self.redirect('/')
 
-
-class CommentPage(webapp2.RequestHandler):
+# Request handler for individual recipe page
+class RecipePage(webapp2.RequestHandler):
     def get(self):
-        # Capture comments from DB query
-        comments = db.GqlQuery('SELECT * FROM Comment')
+        # Capture the recipe from DB query
+        recipe = db.GqlQuery('SELECT * FROM Recipe WHERE __key__ = KEY(:1)', self.request.get('recipe_id')).get()
 
-        # Generate HTML response string
-        response = '<html>'
-        for comment in comments:
-            response += '<b>'+comment.name+'</b>'+' '+comment.comment+'<br />'
-        response += '</html>'
+        # Add recipe to template values
+        template_values = {
+            'recipe': recipe
+        }
 
-        # Write the response!
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(response)
+        path = os.path.join(os.path.dirname(__file__), 'recipe.html')
+        self.response.out.write(template.render(path, template_values))
+
 
 application = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/comments', CommentPage)
+    ('/recipe', RecipePage)
 ], debug=True)

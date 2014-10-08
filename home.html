@@ -1,24 +1,10 @@
 <html>
 	<head>
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-		<style>
-			img {
-				height: 100px;
-				width: 100px;
-			}
-			.field-name {
-				font-weight: bold;
-			}
-			body {
-				background-color: #A6C4A8;
-			}
-			.container {
-				background-color: #FFF;
-			}
-		</style>
+		<link href="/style.css" rel="stylesheet">
 	</head>
 	<body>
-		<div class="container col-md-6">
+		<div class="container col-md-5">
 			<h1>
 				<b>hello</b>
 			</h1>
@@ -35,13 +21,9 @@
 				<input type="submit" class="btn btn-default" />
 			</form>
 		</div>
-		<div class="containter col-md-6">
+		<div class="container col-md-5">
 			{% for recipe in recipes %}
-			    <b>{{ recipe.title }}</b><br />
-			    <ul>
-			      <li>{{ recipe.description }}</li>
-			      <li>{{ recipe.cook_time }}</li>
-			    </ul>
+			    <b><a href="/recipe?recipe_id={{ recipe.key }}">{{ recipe.title }}</a></b>
 			    <br />
 			{% endfor %}
 		</div>

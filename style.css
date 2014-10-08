@@ -1,0 +1,17 @@
+img {
+    height: 100px;
+    width: 100px;
+}
+.field-name {
+    font-weight: bold;
+}
+body {
+    background-color: #FFF;
+}
+.container {
+    margin: 18px;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #CCC;
+    background-color: #FFF;
+}

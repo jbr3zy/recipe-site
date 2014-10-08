@@ -5,5 +5,8 @@ api_version: 1
 threadsafe: true
 
 handlers:
+- url: /style.css 
+  static_files: style.css
+  upload: style.css 
 - url: /.*
-  script: helloworld.application
+  script: falkfood.application
