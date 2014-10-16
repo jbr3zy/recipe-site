@@ -46,6 +46,12 @@ class MainPage(webapp2.RequestHandler):
                      cook_time=int(self.request.get('cook_time')))
         db.put(rec) # Save values to DB
 
+        for i in range(3):
+            ingredient_name = 'ingredient_' + str(i + 1)
+            ingredient = Ingredient(text=self.request.get(ingredient_name),
+                                    recipe=rec)
+            db.put(ingredient)
+
         # Re-direct the user to the home page
         self.redirect('/')
 
