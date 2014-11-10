@@ -20,6 +20,12 @@
                         <li>{{ ingredient.text }}</li>
                     {% endfor %}
                   </ul>
+                  <li><b>Instructions:</b><br /></li>
+                  <ul>
+                    {% for instruction in recipe.instructions %}
+                        <li>{{ instruction.text }}</li>
+                    {% endfor %}
+                  </ul>
                 </ul>
                 <br />
                 <a href="/"><button class="btn btn-default">Home</button></a>

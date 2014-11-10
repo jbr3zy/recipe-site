@@ -1,3 +1,4 @@
+# Importing libraries
 import webapp2
 import os
 import cgi
@@ -9,18 +10,20 @@ class Recipe(db.Model):
     title = db.StringProperty(required=True)
     #author
     #picture(s)
-    description = db.StringProperty()
+    description = db.TextProperty()
     cook_time = db.IntegerProperty()
 
 
 class Ingredient(db.Model):
-    text = db.StringProperty(required=True)
+    #text = db.StringProperty(required=True)
+    text = db.TextProperty(required=True)
     recipe = db.ReferenceProperty(Recipe,
                                   collection_name='ingredients')
 
 
 class Instruction(db.Model):
-    text = db.StringProperty(required=True)
+    #text = db.StringProperty(required=True)
+    text = db.TextProperty(required=True)
     recipe = db.ReferenceProperty(Recipe,
                                   collection_name='instructions')
 
@@ -46,11 +49,17 @@ class MainPage(webapp2.RequestHandler):
                      cook_time=int(self.request.get('cook_time')))
         db.put(rec) # Save values to DB
 
-        for i in range(3):
-            ingredient_name = 'ingredient_' + str(i + 1)
-            ingredient = Ingredient(text=self.request.get(ingredient_name),
-                                    recipe=rec)
-            db.put(ingredient)
+
+        ingredient = Ingredient(text=self.request.get('ingredient'),
+                                recipe=rec)
+
+        instruction = Instruction(text=self.request.get('instruction'),
+                                recipe=rec)
+
+
+        db.put(ingredient)
+        db.put(instruction)
+
 
         # Re-direct the user to the home page
         self.redirect('/')
